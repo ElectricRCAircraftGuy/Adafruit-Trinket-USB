@@ -19,11 +19,19 @@ License along with TrinketHidCombo. If not, see
 <http://www.gnu.org/licenses/>.
 */
 
+/*
+Edits by Gabriel Staples
+http://www.ElectricRCAircraftGuy.com 
+-attempting to shrink the code down...
+As of: 30 Jan 2017 
+
+*/
+
 #ifndef _TRINKETHIDCOMBO_H_
 #define _TRINKETHIDCOMBO_H_
 
-#include <stdint.h>
-#include <Print.h>
+// #include <stdint.h>
+// #include <Print.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,50 +41,52 @@ extern "C" {
 }
 #endif
 
-class Trinket_Hid_Combo : public Print
+// class Trinket_Hid_Combo : public Print
+class Trinket_Hid_Combo
 {
 	private:
+    Trinket_Hid_Combo(); //GS: empty PRIVATE constructor--prevents user from ever instantiating an instance of this class 
 	public:
-		Trinket_Hid_Combo(); // empty constructor, ignore me
-		void begin(); // starts the USB driver, causes re-enumeration
-		void poll(); // this (or "press" something) must be called at least once every 10ms
-		char isConnected(); // checks if USB is connected, 0 if not connected
+		// Trinket_Hid_Combo(); // empty constructor, ignore me
+		static void begin(); // starts the USB driver, causes re-enumeration
+		static void poll(); // this (or "press" something) must be called at least once every 10ms
+		// char isConnected(); // checks if USB is connected, 0 if not connected
 
 		// makes a mouse movement
-		void mouseMove(signed char x, signed char y, uint8_t buttonMask);
+		static void mouseMove(signed char x, signed char y, uint8_t buttonMask);
 
 		// presses up to 5 keys, and modifiers (modifiers are keys like shift, CTRL, etc)
-		void pressKey(uint8_t modifiers, uint8_t keycode1, uint8_t keycode2, uint8_t keycode3, uint8_t keycode4, uint8_t keycode5);
-		void pressKey(uint8_t modifiers, uint8_t keycode1, uint8_t keycode2, uint8_t keycode3, uint8_t keycode4);
-		void pressKey(uint8_t modifiers, uint8_t keycode1, uint8_t keycode2, uint8_t keycode3);
-		void pressKey(uint8_t modifiers, uint8_t keycode1, uint8_t keycode2);
-		void pressKey(uint8_t modifiers, uint8_t keycode1);
+		// void pressKey(uint8_t modifiers, uint8_t keycode1, uint8_t keycode2, uint8_t keycode3, uint8_t keycode4, uint8_t keycode5);
+		// void pressKey(uint8_t modifiers, uint8_t keycode1, uint8_t keycode2, uint8_t keycode3, uint8_t keycode4);
+		// void pressKey(uint8_t modifiers, uint8_t keycode1, uint8_t keycode2, uint8_t keycode3);
+		// void pressKey(uint8_t modifiers, uint8_t keycode1, uint8_t keycode2);
+		static void pressKey(uint8_t modifiers, uint8_t keycode1);
 
 		// presses a list of keys, do not exceed 5 keys
-		void pressKeys(uint8_t modifiers, uint8_t* keycodes, uint8_t sz);
+		// void pressKeys(uint8_t modifiers, uint8_t* keycodes, uint8_t sz);
 
 		// type out a single ASCII character
-		void typeChar(uint8_t ascii);
+		static void typeChar(uint8_t ascii);
 
-		void pressMultimediaKey(uint8_t key);
-		void pressSystemCtrlKey(uint8_t key);
+		static void pressMultimediaKey(uint8_t key);
+		static void pressSystemCtrlKey(uint8_t key);
 
 		// returns the state of the three LEDs on a keyboard (caps/num/scroll lock)
-		uint8_t getLEDstate();
+		static uint8_t getLEDstate();
 
-		// inherit from "Print", these two write functions are implemented
+/* 		// inherit from "Print", these two write functions are implemented
 		virtual size_t write(uint8_t);
 		using Print::write;
 		// other "print" and "println" functions are automatically available
 		using Print::print;
-		using Print::println;
+		using Print::println; */
 };
 
 // helps translate ASCII characters into keycode and modifier combinations, while taking into account whether or not caps lock is on
 void ASCII_to_keycode(uint8_t ascii, uint8_t ledState, uint8_t* modifier, uint8_t* keycode);
 
 // an instance that the user can use
-extern Trinket_Hid_Combo TrinketHidCombo;
+// extern Trinket_Hid_Combo TrinketHidCombo;
 
 // use these masks with the "move" function
 #define MOUSEBTN_LEFT_MASK		0x01

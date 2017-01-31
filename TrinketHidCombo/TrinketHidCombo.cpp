@@ -29,13 +29,13 @@ License along with TrinketHidCombo. If not, see
 #include <util/delay.h>
 
 // create an instance that the user can use
-Trinket_Hid_Combo TrinketHidCombo;
+// Trinket_Hid_Combo TrinketHidCombo;
 
-// empty constructor
+/* // empty constructor
 Trinket_Hid_Combo::Trinket_Hid_Combo()
 {
 	// nothing to do
-}
+} */
 
 // starts the USB driver, causes re-enumeration
 void Trinket_Hid_Combo::begin()
@@ -63,7 +63,7 @@ void Trinket_Hid_Combo::mouseMove(signed char x, signed char y, uint8_t buttonMa
 	usbReportSend(REPSIZE_MOUSE);
 }
 
-void Trinket_Hid_Combo::pressKey(uint8_t modifiers, uint8_t keycode1)
+/* void Trinket_Hid_Combo::pressKey(uint8_t modifiers, uint8_t keycode1)
 {
 	pressKey(modifiers, keycode1, 0, 0, 0, 0);
 }
@@ -96,9 +96,29 @@ void Trinket_Hid_Combo::pressKey(uint8_t modifiers, uint8_t keycode1, uint8_t ke
 	report_buffer[7] = keycode5;
 	report_buffer[0] = REPID_KEYBOARD;
 	usbReportSend(REPSIZE_KEYBOARD);
+} */
+
+//GS: minimal function to save flash 
+void Trinket_Hid_Combo::pressKey(uint8_t modifiers, uint8_t keycode1)
+{
+	report_buffer[0] = REPID_KEYBOARD;
+  report_buffer[1] = modifiers;
+  report_buffer[2] = 0;
+  report_buffer[3] = keycode1;
+  
+  //this:
+  for (uint8_t i=4; i<8; i++)
+    report_buffer[i] = 0;
+  //OR this (same flash usage as the for loop...so just use the for loop):
+  // report_buffer[4] = 0;
+	// report_buffer[5] = 0;
+	// report_buffer[6] = 0;
+	// report_buffer[7] = 0;
+  
+	usbReportSend(REPSIZE_KEYBOARD);
 }
 
-// presses a list of keys, do not exceed 5 keys
+/* // presses a list of keys, do not exceed 5 keys
 void Trinket_Hid_Combo::pressKeys(uint8_t modifiers, uint8_t* keycodes, uint8_t sz)
 {
 	report_buffer[0] = REPID_KEYBOARD;
@@ -110,7 +130,7 @@ void Trinket_Hid_Combo::pressKeys(uint8_t modifiers, uint8_t* keycodes, uint8_t 
 		report_buffer[3 + i] = keycodes[i];
 	}
 	usbReportSend(REPSIZE_KEYBOARD);
-}
+} */
 
 void Trinket_Hid_Combo::typeChar(uint8_t ascii)
 {
@@ -120,11 +140,11 @@ void Trinket_Hid_Combo::typeChar(uint8_t ascii)
 	pressKey(0, 0); // immediately release the key after
 }
 
-size_t Trinket_Hid_Combo::write(uint8_t ascii)
-{
-	typeChar(ascii);
-	return 1;
-}
+// size_t Trinket_Hid_Combo::write(uint8_t ascii)
+// {
+	// typeChar(ascii);
+	// return 1;
+// }
 
 void Trinket_Hid_Combo::pressMultimediaKey(uint8_t key)
 {
@@ -321,8 +341,8 @@ uint8_t Trinket_Hid_Combo::getLEDstate()
 	return led_state;
 }
 
-// checks if USB is connected, 0 if not connected
+/* // checks if USB is connected, 0 if not connected
 char Trinket_Hid_Combo::isConnected()
 {
 	return usb_hasCommed;
-}
+} */
