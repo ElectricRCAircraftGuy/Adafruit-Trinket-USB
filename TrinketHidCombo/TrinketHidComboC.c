@@ -235,7 +235,7 @@ usbMsgLen_t usbFunctionWrite(uint8_t * data, uchar len)
 {
 	//We take the 2nd byte, which is the data byte
 	led_state = data[1];
-	return 1; // 1 byte read
+	return 1; // 1 byte read //GS: should return 1 once we have all the data, NOT because 1 byte is read; see here: http://vusb.wikidot.com/driver-api 
 }
 
 #if defined(__AVR_ATtiny85__) || defined(__AVR_ATtiny45__) || defined(__AVR_ATtiny25__)
