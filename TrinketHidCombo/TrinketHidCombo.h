@@ -33,6 +33,7 @@ As of: 30 Jan 2017
 // #include <stdint.h>
 // #include <Print.h>
 #include "TrinketHidComboC.h" //GS: for usbPollWrapper()
+#define USBPoll() usbPollWrapper() //GS
 
 #ifdef __cplusplus
 extern "C" {
