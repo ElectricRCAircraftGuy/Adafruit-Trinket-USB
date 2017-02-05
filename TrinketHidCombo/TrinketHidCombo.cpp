@@ -43,11 +43,11 @@ void Trinket_Hid_Combo::begin()
 	usbBegin();
 }
 
-// this must be called at least once every 10ms
+/* // this must be called at least once every 10ms
 void Trinket_Hid_Combo::poll()
 {
 	usbPollWrapper();
-}
+} */
 
 // makes a mouse movement
 void Trinket_Hid_Combo::mouseMove(signed char x, signed char y, uint8_t buttonMask)

@@ -32,6 +32,7 @@ As of: 30 Jan 2017
 
 // #include <stdint.h>
 // #include <Print.h>
+#include "TrinketHidComboC.h" //GS: for usbPollWrapper()
 
 #ifdef __cplusplus
 extern "C" {
@@ -49,7 +50,7 @@ class Trinket_Hid_Combo
 	public:
 		// Trinket_Hid_Combo(); // empty constructor, ignore me
 		static void begin(); // starts the USB driver, causes re-enumeration
-		static void poll(); // this (or "press" something) must be called at least once every 10ms
+		// static void poll(); // this (or "press" something) must be called at least once every 10ms; GS update: use usbPollWrapper() directly instead now!
 		// char isConnected(); // checks if USB is connected, 0 if not connected
 
 		// makes a mouse movement
