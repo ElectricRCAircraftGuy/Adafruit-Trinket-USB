@@ -231,7 +231,7 @@ void ASCII_to_keycode(uint8_t ascii, uint8_t ledState, uint8_t* modifier, uint8_
 				*keycode = 29 + 5;
 				break;
 			case '^':
-				*modifier = _BV(1); // hold shift
+				// *modifier = _BV(1); // hold shift
 				*keycode = 29 + 6;
 				break;
 			case '&':
@@ -326,10 +326,9 @@ void ASCII_to_keycode(uint8_t ascii, uint8_t ledState, uint8_t* modifier, uint8_
 				*keycode = 0x28;
 				break;
 		} //end of switch 
-    //Decide for which ranges of ascii char symbols you must hold shift
-    //-NOT included here, but you must also hold shift for: 94, which is ^  <--done above!  
+    //Decide for which ranges of ascii char symbols you must hold shift 
     if ((ascii>=33 && ascii<=38) || (ascii>=40 && ascii<=43) || (ascii>=62 && ascii<=64) ||
-        (ascii>=123 && ascii<=126) || ascii==58 || ascii==60 || ascii==95)
+        (ascii>=123 && ascii<=126) || ascii==58 || ascii==60 || ascii==94 || ascii==95)
     {
       *modifier = _BV(1); // hold shift
     }
