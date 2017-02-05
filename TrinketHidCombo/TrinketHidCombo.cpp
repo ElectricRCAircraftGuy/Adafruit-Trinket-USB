@@ -170,7 +170,174 @@ void Trinket_Hid_Combo::pressSystemCtrlKey(uint8_t key)
 	usbReportSend(REPSIZE_SYSCTRLKEY);
 }
 
+//GS: OPTIMIZING FUNCTION TO SAVE FLASH MEMORY *WITHOUT LOSING ANY FUNCTIONALITY*
 void ASCII_to_keycode(uint8_t ascii, uint8_t ledState, uint8_t* modifier, uint8_t* keycode)
+{
+	*keycode = 0x00;
+	*modifier = 0x00;
+	
+	// see scancode.doc appendix C
+	
+	if (ascii >= 'A' && ascii <= 'Z')
+	{
+		*keycode = 4 + ascii - 'A'; // set letter
+    if (!bit_is_set(ledState, 1)) // if caps is OFF
+		{
+			*modifier = _BV(1); // hold shift to make it upper case 
+		}
+	}
+	else if (ascii >= 'a' && ascii <= 'z')
+	{
+		*keycode = 4 + ascii - 'a'; // set letter
+    if (bit_is_set(ledState, 1)) // if caps is on
+		{
+			*modifier = _BV(1); // hold shift to make it lower case 
+		}
+	}
+	else if (ascii >= '0' && ascii <= '9')
+	{
+		// *modifier = 0x00; //GS: already set above 
+		if (ascii == '0')
+		{
+			*keycode = 0x27;
+		}
+		else
+		{
+			*keycode = 30 + ascii - '1'; 
+		}
+	}
+	else
+	{
+		switch (ascii) // convert ascii to keycode according to documentation
+		{
+			case '!':
+				// *modifier = _BV(1); // hold shift
+				*keycode = 29 + 1;
+				break;
+			case '@':
+				// *modifier = _BV(1); // hold shift
+				*keycode = 29 + 2;
+				break;
+			case '#':
+				// *modifier = _BV(1); // hold shift
+				*keycode = 29 + 3;
+				break;
+			case '$':
+				// *modifier = _BV(1); // hold shift
+				*keycode = 29 + 4;
+				break;
+			case '%':
+				// *modifier = _BV(1); // hold shift
+				*keycode = 29 + 5;
+				break;
+			case '^':
+				*modifier = _BV(1); // hold shift
+				*keycode = 29 + 6;
+				break;
+			case '&':
+				// *modifier = _BV(1); // hold shift
+				*keycode = 29 + 7;
+				break;
+			case '*':
+				// *modifier = _BV(1); // hold shift
+				*keycode = 29 + 8;
+				break;
+			case '(':
+				// *modifier = _BV(1); // hold shift
+				*keycode = 29 + 9;
+				break;
+			case ')':
+				// *modifier = _BV(1); // hold shift
+				*keycode = 0x27;
+				break;
+			case '~':
+				// *modifier = _BV(1); // hold shift
+				// fall through
+			case '`':
+				*keycode = 0x35;
+				break;
+			case '_':
+				// *modifier = _BV(1); // hold shift
+				// fall through
+			case '-':
+				*keycode = 0x2D;
+				break;
+			case '+':
+				// *modifier = _BV(1); // hold shift
+				// fall through
+			case '=':
+				*keycode = 0x2E;
+				break;
+			case '{':
+				// *modifier = _BV(1); // hold shift
+				// fall through
+			case '[':
+				*keycode = 0x2F;
+				break;
+			case '}':
+				// *modifier = _BV(1); // hold shift
+				// fall through
+			case ']':
+				*keycode = 0x30;
+				break;
+			case '|':
+				// *modifier = _BV(1); // hold shift
+				// fall through
+			case '\\':
+				*keycode = 0x31;
+				break;
+			case ':':
+				// *modifier = _BV(1); // hold shift
+				// fall through
+			case ';':
+				*keycode = 0x33;
+				break;
+			case '"':
+				// *modifier = _BV(1); // hold shift
+				// fall through
+			case '\'':
+				*keycode = 0x34;
+				break;
+			case '<':
+				// *modifier = _BV(1); // hold shift
+				// fall through
+			case ',':
+				*keycode = 0x36;
+				break;
+			case '>':
+				// *modifier = _BV(1); // hold shift
+				// fall through
+			case '.':
+				*keycode = 0x37;
+				break;
+			case '?':
+				// *modifier = _BV(1); // hold shift
+				// fall through
+			case '/':
+				*keycode = 0x38;
+				break;
+			case ' ':
+				*keycode = 0x2C;
+				break;
+			case '\t':
+				*keycode = 0x2B;
+				break;
+			case '\n':
+				*keycode = 0x28;
+				break;
+		} //end of switch 
+    //Decide for which ranges of ascii char symbols you must hold shift
+    //-NOT included here, but you must also hold shift for: 94, which is ^  <--done above!  
+    if ((ascii>=33 && ascii<=38) || (ascii>=40 && ascii<=43) || (ascii>=62 && ascii<=64) ||
+        (ascii>=123 && ascii<=126) || ascii==58 || ascii==60 || ascii==95)
+    {
+      *modifier = _BV(1); // hold shift
+    }
+	} //end of else 
+}
+
+//GS: ORIGINAL FUNCTION--BACKED UP SO I CAN NOW OPTIMIZE IT 
+/* void ASCII_to_keycode(uint8_t ascii, uint8_t ledState, uint8_t* modifier, uint8_t* keycode)
 {
 	*keycode = 0x00;
 	*modifier = 0x00;
@@ -334,7 +501,7 @@ void ASCII_to_keycode(uint8_t ascii, uint8_t ledState, uint8_t* modifier, uint8_
 				break;
 		}
 	}
-}
+} */
 
 uint8_t Trinket_Hid_Combo::getLEDstate()
 {
