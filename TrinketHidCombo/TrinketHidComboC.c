@@ -79,7 +79,8 @@ void usbReportSend(uint8_t sz)
 // see HID1_11.pdf appendix B section 1
 // USB_CFG_HID_REPORT_DESCRIPTOR_LENGTH is defined in usbconfig (should be 175)
 const PROGMEM char usbHidReportDescriptor[USB_CFG_HID_REPORT_DESCRIPTOR_LENGTH] = {
-	0x05, 0x01,           // USAGE_PAGE (Generic Desktop)
+	//GS: length 54
+  0x05, 0x01,           // USAGE_PAGE (Generic Desktop)
 	0x09, 0x02,           // USAGE (Mouse)
 	0xa1, 0x01,           // COLLECTION (Application)
 	0x09, 0x01,           //   USAGE (Pointer)
