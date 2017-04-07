@@ -109,6 +109,7 @@ const PROGMEM char usbHidReportDescriptor[USB_CFG_HID_REPORT_DESCRIPTOR_LENGTH] 
 	0xC0,                 //   END_COLLECTION
 	0xC0,                 // END COLLECTION
 
+  //GS: length 67
 	0x05, 0x01,           // USAGE_PAGE (Generic Desktop)
 	0x09, 0x06,           // USAGE (Keyboard)
 	0xA1, 0x01,           // COLLECTION (Application)
@@ -143,6 +144,7 @@ const PROGMEM char usbHidReportDescriptor[USB_CFG_HID_REPORT_DESCRIPTOR_LENGTH] 
 	0x81, 0x00,           //   INPUT (Data,Ary,Abs)
 	0xC0,                 // END_COLLECTION
 
+  //GS: length 25
 	// this second multimedia key report is what handles the multimedia keys
 	0x05, 0x0C,           // USAGE_PAGE (Consumer Devices)
 	0x09, 0x01,           // USAGE (Consumer Control)
@@ -157,6 +159,7 @@ const PROGMEM char usbHidReportDescriptor[USB_CFG_HID_REPORT_DESCRIPTOR_LENGTH] 
 	0x81, 0x00,           //   INPUT (Data,Ary,Abs)
 	0xC0,                 // END_COLLECTION
 
+  //GS: length 29
 	// system controls, like power, needs a 3rd different report and report descriptor
 	0x05, 0x01,             // USAGE_PAGE (Generic Desktop)
 	0x09, 0x80,             // USAGE (System Control)
